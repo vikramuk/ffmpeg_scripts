@@ -1,0 +1,40 @@
+#Get Video File Information
+ ffmpeg -i video.flv
+#Split a video into images
+ ffmpeg -f image2 -i image%d.jpg imagestovideo.mpg
+#Convert images into a video
+ ffmpeg -i video.flv -vn -ar 44100 -ac 2 -ab 192 -f mp3 audio.mp3
+	vn: helps to disable video recording during the conversion.
+	ar: helps you set audio sampling rate in Hz.
+	ab: set the audio bitrate.
+	ac: to set the number of audio channels.
+	-f: format.
+#Convert a video into mp3 format
+ ffmpeg -i video.flv -vn -ar 44100 -ac 2 -ab 192 -f mp3 audio.mp3
+#Covert flv video file to mpg format
+ ffmpeg -i video.flv video.mpg
+#Convert video into animated gif
+ ffmpeg -i video.flv animated.gif.mp4
+#Convert mpg video file to flv
+ ffmpeg -i video.mpg -ab 26k -f flv video1.flv
+#Convert avi video file to mpeg
+ ffmpeg -i video.avi -target pal-dvd -ps 2000000000 -aspect 16:9 video.mpeg
+	target pal-dvd : Output format
+	ps 2000000000 maximum size for the output file, in bits (here, 2 Gb).
+	aspect 16:9 : Widescreen.
+#Convert a video to CD or DVD format
+ ffmpeg -i video.mpg -target vcd vcd_video.mpg
+#Extract audio from video file
+ ffmpeg -i video1.avi -vn -ar 44100 -ac 2 -ab 192 -f mp3 audio3.mp3
+#Mix a video and audio together
+ ffmpeg -i audio.mp3 -i video.avi video_audio_mix.mpg
+#Increase/Reduce Video Playback Speed
+ ffmpeg -i video.mpg -vf "setpts=0.5*PTS" highspeed.mpg
+ ffmpeg -i video.mpg -vf "setpts=4.0*PTS" lowerspeed.mpg -hide_banner
+
+#Compare/Test Video and Audio Quality
+ ffplay video1.mp4
+#Add Photo or Banner to Audio
+ ffmpeg -loop 1 -i image.jpg -i Bryan\ Adams\ -\ Heaven.mp3 -c:v libx264 -c:a aac -strict experimental -b:a 192k -shortest output.mp4
+#Add subtitles to a Movie
+ ffmpeg -i video.mp4 -i subtitles.srt -map 0 -map 1 -c copy -c:v libx264 -crf 23 -preset veryfast video-output.mkv

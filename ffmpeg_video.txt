@@ -59,7 +59,7 @@ ffmpeg -i input.mp4 -c:v libaom-av1 -strict -2 -b:v 6000K -maxrate 12000K -cpu-u
 #http://rodrigopolo.com/ffmpeg/cheats.php
 
 High quality 2 Pass
-ffmpeg -y -i INPUT -r 30000/1001 -b 2M -bt 4M -vcodec libx264 -pass 1 -vpre fastfirstpass -an output.mp4
+#https://www.cheatography.com/thetartankilt/cheat-sheets/ffmpeg/ffmpeg -y -i INPUT -r 30000/1001 -b 2M -bt 4M -vcodec libx264 -pass 1 -vpre fastfirstpass -an output.mp4
 ffmpeg -y -i INPUT -r 30000/1001 -b 2M -bt 4M -vcodec libx264 -pass 2 -vpre hq -acodec libfaac -ac 2 -ar 48000 -ab 192k output.mp4
 iPod-iPhone 320 width
 ffmpeg -i INPUT -s 320x240 -r 30000/1001 -b 200k -bt 240k -vcodec libx264 -vpre ipod320 -acodec libfaac -ac 2 -ar 48000 -ab 192k output.mp4
@@ -116,3 +116,84 @@ duration record or transcode "duration" seconds of audio/video
 Interlaced
 
 #https://lzone.de/cheat-sheet/ffmpeg
+#https://www.cheatography.com/thetartankilt/cheat-sheets/ffmpeg/
+Video options
+-b bRate
+set video bitrate (in kbit/s)
+-fixaspect
+fix aspect ratio
+-bt toler­ance
+set video bitrate tolerance (in kbit/s)
+-maxrate bRate
+-minrate bRate
+set maximum or minimum video bitrate tolerance (in kbit/s)
+-bufsize size
+set rateco­ntrol buffer size (in kByte)
+-sameq
+use same video quality as source (implies VBR)
+-newvideo
+add a new video stream to the current output stream
+
+Size specif­ication
+K or k 103 1000 bytes Kilobytes
+M 106 1000000 bytes Megabytes
+G 109 1000000000 Gigabytes
+
+Ki 210 1024 Kibibyte 
+Mi 220 1048576 Mebibyte
+Gi 230 1073741824 Gibibyte
+
+Audio Options
+-ab bRate  set audio bitrate (in kbit/s)
+-aframes N Set the number of audio frames to record. [an alias for -frames:a]
+-aq q Set the audio quality (codec­-sp­ecific, VBR). [an alias for -q:a]
+-an Disable audio recording
+-acodec codec  Set the audio codec. [an alias for -codec:a]
+Use 'copy' to copy stream.
+-vol Change the audio volume in multiples of 256 where 256 = 100% (normal) volume. e.g. 512 = 200%
+-newaudio add a new audio stream to the current output stream
+-alang code  set the ISO 639 language code (3 letters) of the current audio stream
+
+Useful examples  
+Transcode input file to DVD PAL format
+ffmpeg -y -threads 8 -i inFile -target pal-dvd -ac 2 -aspect 16:9 -acodec mp2 -ab 224000 -vf pad=0:­0:0:0 outFile
+
+Convert to grayscale
+ffmpeg -y -i inFile -flags gray outFile
+
+Create 1 minute of audio noise
+ffmpeg -ar 48000 -t 60 -f s16le -acodec pcm_s16le -i /dev/u­random -ab 64K -f mp2 -acodec mp2 -y noise.mp2
+
+Extract images from video
+ffmpeg -i foo.avi -r 1 -s WxH -f image2 outFil­e%0­3d.png
+
+Convert image file to other formats
+ffmpeg -i foo012­2.png foo.tiff
+pgm, ppm, pam, pgmyuv, jpeg, gif, png, tiff, sgi
+
+Convert images to AVI file
+ffmpeg -f image2 -i foo-%0­3d.jpeg -r 12 -s WxH foo.avi
+Convert a WAV file to MP3
+ffmpeg -i source­_so­ng.wav -vn -ar 44100 -ac 2 -ab 192 -f mp3 final_­son­g.mp3
+Extract audio from a video, transc­oding it to MP3
+ffmpeg -i source.avi -vn -ar 44100 -ac 2 -ab 192 -f mp3 sound.mp3
+
+Convert .avi to .flv
+ffmpeg -i source.avi -ab 56 -ar 44100 -b 200 -r 15 -s 320x240 -f flv output.flv
+
+Convert .avi to animated gif
+ffmpeg -i video.avi animat­ed.gif
+
+Attach a picture to an mp3
+ffmpeg -i input.mp3 -i cover.png -c copy -metad­ata:s:v title=­"­Album cover" -metad­ata:s:v commen­t="Cover (Front­)" out.mp3
+Mix a video with a sound file
+ffmpeg -i song.wav -i source­_vi­deo.avi outvid­eo.mpg
+
+Write an mp3 with an ID3v2.3 header and an ID3v1 footer
+ffmpeg -i inFile -id3v2­_ve­rsion 3 -write­_id3v1 1 outFil­e.mp3
+Concat­enate input files
+cat inFile1 inFile2 | ffmpeg -f mpeg -i - -vcodec copy -acodec copy outFil­e.mpg
+
+Encode a clip with codec with bitrate, and mp3 audio
+ffmpeg -i clip.avi -vcodec libxvid -b 800000 -acodec libmp3lame -ab 128 new-cl­ip.avi
+Merge audio stream with video stream from different files

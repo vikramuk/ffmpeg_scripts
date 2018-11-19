@@ -221,3 +221,13 @@ ffmpeg -i video_1920.mp4 -vf scale=640:480,setdar=4:3 video_640x480.mp4 -hide_ba
 ffmpeg -i video_1920.mp4 -vf scale=200:400,setsar=1:1 video_200x400.mp4 -hide_banner
 
 #https://trac.ffmpeg.org/wiki/Encode/H.264
+
+
+ffmpeg -i example.mov -f mp4 -vcodec libx264 -preset fast -profile:v main -acodec aac example.mp4 -hide_banner
+In this conversion we are using some parameters:
+-f mp4 with this parameter we are specifying that the output file will have mp4 format.
+-vcodec libx264 with this parameter we are specifying the video codec that we want to use. In this case we are using libx264 which is a H264 video encoder. (we can use the parameter -c:v libx264 instead)
+-preset fast with this parameter we are specifying the encoder (libx264) some options for the encoding process. We can use any of the different presets that exists (ultrafast, superfast, veryfast, faster, fast, medium, slow, slower or veryslow from the fastest to the slowest). Slower presets will produce better quality video in less space but it will take more time to process.
+-profile:v main this parameter is similar to preset. The profile parameter indicates the encoder if it can use some advanced options to improve the video compression. The downside is that using these advanced options can make the video unplayable on some old devices. We are using the main profile as it is very well supported but we can use one of the following: baseline, main, high, high10, high422, and high444
+-acodec aac with this parameter we are specifying the audio encoder to use, in this case we are using audio aac codec.
+-hide_banner will hide some compilation information about ffmpeg.

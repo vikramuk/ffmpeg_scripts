@@ -120,6 +120,8 @@ Interlaced
 Video options
 -b bRate
 set video bitrate (in kbit/s)
+
+
 -fixaspect
 fix aspect ratio
 -bt toler­ance
@@ -197,3 +199,25 @@ cat inFile1 inFile2 | ffmpeg -f mpeg -i - -vcodec copy -acodec copy outFil­e.mp
 Encode a clip with codec with bitrate, and mp3 audio
 ffmpeg -i clip.avi -vcodec libxvid -b 800000 -acodec libmp3lame -ab 128 new-cl­ip.avi
 Merge audio stream with video stream from different files
+
+#https://www.bugcodemaster.com/article/convert-videos-webm-format-using-ffmpeg
+To convert a video file example.mp4 into webm format we can do with the following command:
+ffmpeg -i example.mp4 -f webm -c:v libvpx -b:v 1M -acodec libvorbis example.webm -hide_banner
+We are using the parameters:
+-f webm this makes ffmpeg to produce an output file in webm format.
+-c:v libvpx with this parameter we are specifying to use the libvpx encoder for video. This encoder will produce a stream in vp8 codec format which is the codec we want.
+-acodec libvorbis with this parameter we are specifying to use libvorbis encoder for audio streams.
+-b:v 1M with this parameter we are telling ffmpeg to attempt to achieve a bitrate of 1Mb for the output file. This is a big difference with mp4 encoding. We should specify the variable bitrate that we want to achieve. We can aviod this parameter, but the results will be really bad (by default the encoder lowers the quality too much). There is a crf option in the documentation of the encoder that should work like in mp4-h264 encoding but in my personal experience that parameter just doesn't work, so we must use the bitrate option.
+-hide_banner as usual with this parameter we hide certain information about compilation of ffmpeg.
+
+#https://www.bugcodemaster.com/article/how-extract-and-join-video-files-using-ffmpeg
+ffmpeg -i video_1920.mp4 -vf scale=640:360 video_640.mp4 -hide_banner
+It is only necessary to indicate the scale video filter with the new desired resolution (640:360) with -vf scale=640:360. To consider:
+We can indicate any resolution we want, but the resulting video will always have the same aspect ratio. That is, it will not distort the images, if video is in 16:9 aspect ratio, it will keep the video in 16:9 aspect ratio. The program will adjust the resulting video so it can fit in the resolution that we have given.
+When changing resolution, the video must go throught the encoding process another time, so the process can be slow depending on the output format and the codec you're using for the output.
+We have not mentioned it, but most of the time it does not make sense to transform a video to a higher resolution because, there can't be any improvement in video quality.
+
+ffmpeg -i video_1920.mp4 -vf scale=640:480,setdar=4:3 video_640x480.mp4 -hide_banner
+ffmpeg -i video_1920.mp4 -vf scale=200:400,setsar=1:1 video_200x400.mp4 -hide_banner
+
+#https://trac.ffmpeg.org/wiki/Encode/H.264

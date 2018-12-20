@@ -45,6 +45,9 @@ http://rodrigopolo.com/ffmpeg/cheats.php#Get Video File Information
 
 ffmpeg -y -i input.mp4 -c:v libx265  -preset veryslow -tune ssim  -x265-params bitrate=6000:vbv-maxrate=12000  -pass 1 -f mp4 NUL & \ 
 ffmpeg -i input.mp4 -c:v libx265  -preset veryslow -tune ssim  -x265-params bitrate=6000:vbv-maxrate=12000 -pass 2 output_HEVC.mp4
+
+
+
 #H.264:
 ffmpeg -y -i input.mp4 -c:v libx264  -preset veryslow -tune ssim  -b:v 6000K -maxrate 12000K  -pass 1 -f mp4 NUL & \
 ffmpeg -i input.mp4 -c:v libx264  -preset veryslow -tune ssim  -b:v 6000K -maxrate 12000K   -pass 2 output_H264.mp4 
@@ -298,3 +301,27 @@ In this conversion we are using some parameters:
 -profile:v main this parameter is similar to preset. The profile parameter indicates the encoder if it can use some advanced options to improve the video compression. The downside is that using these advanced options can make the video unplayable on some old devices. We are using the main profile as it is very well supported but we can use one of the following: baseline, main, high, high10, high422, and high444
 -acodec aac with this parameter we are specifying the audio encoder to use, in this case we are using audio aac codec.
 -hide_banner will hide some compilation information about ffmpeg.
+
+Testing Video:https://s3.ap-south-1.amazonaws.com/awsmediaout/test/hls600.m3u8
+
+https://www.blazemeter.com/blog/the-new-hls-plugin-for-jmeter-the-complete-guide
+
+https://www.blazemeter.com/blog/monitoring-ux-metrics-in-hls-load-testing-in-jmeter
+
+ HTTP requests the client sends to the server have to have a Content-Type header with the value application/x-fcs.
+
+https://github.com/emqx/mqtt-jmeter
+
+https://github.com/kostaf
+
+https://github.com/Blazemeter
+
+https://www.swtestacademy.com/video-streaming-performance-testing/
+
+http://www.tothenew.com/blog/apple-http-live-streaming-hls/
+
+How to Test using Jmeter the HLS Streams
+
+https://s3.ap-south-1.amazonaws.com/awsmediaout/test/hls600.m3u8
+
+HTTP requests the client sends to the server have to have a Content-Type header with the value application/x-fcs.
